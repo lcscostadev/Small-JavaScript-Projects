@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+}
+
+body {
+    --accent-color: orangered;
+    --background: white;
+    --text-color: black;
+    --button-text-color: var(--background);
+    --transition-delay: 1s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+
+    background: var(--background);
+    color: var(--text-color);
+    transition: var(--transition-delay);
+}
+
+body.dark {
+    --accent-color: #d0d066;
+    --background: #333;
+    --text-color: white;
+}
+
+.title {
+    margin-bottom: .5rem;
+}
+
+.theme-toggle-button {
+    background: var(--accent-color);
+    color: var(--button-text-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: .5em 1em;
+    border-radius: .3em;
+    border: none;
+    outline: none;
+    transition: var(--transition-delay);
+    transform: scale(1);
+}
+
+.theme-toggle-button .icon {
+    margin-right: .5em;
+}
+
+.theme-toggle-button:hover,
+.theme-toggle-button:focus {
+    transform: scale(1.1);
+    ;
+}
+
+.sun-moon-container {
+    --rotation: 0;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    top: 0;
+    height: 200vmin;
+    /* usamos vmin para ter certeza que a animação irá ficar boa em todos os devices */
+    transform: rotate(calc(var(--rotation) * 1deg));
+    transition: transform var(--transition-delay);
+}
+
+
+.sun,
+.moon {
+    position: absolute;
+    transition: opacity, fill, var(--transition-delay);
+    width: 30px;
+    height: 30px;
+    fill: var(--accent-color);
+}
+
+.sun {
+    top: 5%;
+    opacity: 1;
+}
+
+.dark .sun {
+    opacity: 0;
+}
+
+.moon {
+    bottom: 5%;
+    opacity: 0;
+    transform: rotate(180deg);
+}
+
+.dark .moon {
+    opacity: 1;
+}
