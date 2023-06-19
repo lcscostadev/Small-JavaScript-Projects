@@ -10,7 +10,8 @@ tasks.forEach(task => {
   taskName.innerHTML = `
   <div class="task">
       <input type="checkbox" class="task-checkbox">
-      <input type="text" class="task-name" value="${task}">
+      <input type="text" class="task-name" value="${task}" disabled>
+      <button class="edit-task">Edit</button>
       <button class="delete-task">Delete</button>
     </div>
     `
@@ -34,7 +35,8 @@ addTodo.addEventListener('click', () => {
   taskName.innerHTML = `
     <div class="task">
       <input type="checkbox" class="task-checkbox">
-      <input type="text" class="task-name" value="${readInput}">
+      <input type="text" class="task-name" value="${readInput}" disabled >
+      <button class="edit-task">Edit</button>
       <button class="delete-task">Delete</button>
     </div>
   `
@@ -53,5 +55,26 @@ todoList.addEventListener("click", (e) => {
     let taskName = e.target.previousElementSibling.value;
     tasks = tasks.filter(task => task !== taskName);
     localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+
+  if (e.target.classList.contains("edit-task")) {
+    let taskNameInput = e.target.parentElement.querySelector(".task-name");
+    taskNameInput.removeAttribute("disabled");
+    taskNameInput.focus(); // optionally, set focus on the input field
+
+    // attach another event listener to the input element to save the edited task
+    taskNameInput.addEventListener("blur", (e) => {
+      let editedTaskName = e.target.value;
+      let taskIndex = tasks.indexOf(editedTaskName);
+      if (taskIndex > -1) {
+        alert("Task already exists!");
+        e.target.value = tasks[taskIndex]; // restore the original value
+      } else {
+        tasks[tasks.indexOf(taskNameInput.value)] = editedTaskName;
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+      e.target.setAttribute("disabled", "");
+    });
   }
 })
